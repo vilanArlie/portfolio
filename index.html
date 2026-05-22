@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Arlie Vilan — Graphic Designer, Multimedia Designer, Creative Developer & AI-Assisted Designer. Premium creative portfolio." />
+  <meta name="keywords" content="graphic designer, multimedia designer, creative developer, AI design, branding, portfolio" />
+  <title>Arlie Vilan — Creative Designer & Developer</title>
+  <link rel="shortcut icon" href="img/icon.svg" type="image/x-icon">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+
+<style>
+  /* =============================================
+       MOBILE NAV
+    ============================================= */
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 850;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      transform: translateX(100%);
+      transition: transform 0.5s var(--ease-out);
+    }
+    .mobile-nav.open { transform: translateX(0); }
+    .mobile-nav a {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-dim);
+      transition: color 0.3s;
+    }
+    .mobile-nav a:hover { color: var(--gold); }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1024px) {
+      section { padding: 80px 32px; }
+      nav { padding: 24px 32px; }
+      nav.scrolled { padding: 16px 32px; }
+      #hero { padding: 0 32px 64px; }
+      .hero-social, .hero-scroll-hint { display: none; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-image-wrap { max-width: 400px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .experience-grid { grid-template-columns: 1fr; }
+      .testimonial-card { flex: 0 0 calc(80% - 12px); }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 64px 20px; }
+      nav { padding: 20px 20px; }
+      nav.scrolled { padding: 14px 20px; }
+      #hero { padding: 0 20px 48px; }
+      .hero-title { font-size: clamp(40px, 12vw, 80px); }
+      .nav-links { display: none; }
+      .nav-menu-btn { display: flex; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: repeat(2, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+      .testimonial-card { flex: 0 0 90%; }
+      footer { padding: 48px 20px 32px; }
+      #cursor-dot, #cursor-ring { display: none; }
+      body { cursor: auto; }
+      button { cursor: pointer; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-badge { display: none; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .projects-filter { gap: 6px; }
+      .filter-btn { padding: 6px 14px; font-size: 9px; }
+    }
+
+</style>
+
+</head>
+<body>
+
+  <!-- =============================================
+       CURSOR
+  ============================================= -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- =============================================
+       SCROLL PROGRESS
+  ============================================= -->
+  <div id="scroll-progress"></div>
+
+  <!-- =============================================
+       LOADER
+  ============================================= -->
+  <div id="loader">
+    <div class="loader-name">Arlie <span>Vilan</span></div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar"></div>
+    </div>
+    <div class="loader-pct" id="loader-pct">000</div>
+  </div>
+
+  <!-- =============================================
+       NAVIGATION
+  ============================================= -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="#hero" class="nav-logo" aria-label="Arlie Vilan Home">AV<span>.</span></a>
+    <ul class="nav-links" role="list">
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Work</a></li>
+      <li><a href="#experience" class="nav-link">Experience</a></li>
+      <li><a href="#services" class="nav-link">Services</a></li>
+      <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
+    </ul>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="#projects" class="mobile-link">Work</a>
+    <a href="#experience" class="mobile-link">Experience</a>
+    <a href="#services" class="mobile-link">Services</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </nav>
+
+  <!-- =============================================
+       HERO SECTION
+  ============================================= -->
+  <section id="hero" aria-label="Hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-noise"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">Available for projects</div>
+
+      <h1 class="hero-title">
+        <span class="hero-title-line"><span>Creative</span></span>
+        <span class="hero-title-line"><span class="outlined">Design &amp;</span></span>
+        <span class="hero-title-line"><span class="gold">Vision.</span></span>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="hero-desc">
+          Multidisciplinary designer and creative developer crafting premium brand identities, digital experiences, and AI-assisted visual narratives — built to make an impact.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn-primary">
+            View Work
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#contact" class="btn-ghost">Start a Project</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-social" aria-label="Social links">
+      <a href="#" aria-label="Behance">Behance</a>
+      <a href="#" aria-label="Dribbble">Dribbble</a>
+      <a href="#" aria-label="LinkedIn">LinkedIn</a>
+      <a href="#" aria-label="Instagram">Instagram</a>
+    </div>
+
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
+  <!-- =============================================
+       ABOUT SECTION
+  ============================================= -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image-wrap reveal">
+          <div class="about-image-frame">
+            <div class="about-image-placeholder"></div>
+          </div>
+          <div class="about-badge-float">
+            <div class="num">5+</div>
+            <div class="label">Years of Experience</div>
+          </div>
+        </div>
+
+        <div class="about-text">
+          <div class="reveal">
+            <div class="section-label">About Me</div>
+            <h2 class="section-title" id="about-title">Where Design Meets <span style="color:var(--gold)">Vision</span></h2>
+          </div>
+
+          <p class="about-bio reveal reveal-delay-1">
+            I'm <strong>Arlie Vilan</strong> — a multidisciplinary creative specializing in <strong>branding, digital experiences, and visual storytelling</strong>. I blend traditional design craft with cutting-edge AI-assisted workflows to deliver work that doesn't just look good — it communicates, converts, and endures.
+            <br><br>
+            From identity systems and motion graphics to responsive web experiences and AI-generated campaigns, I bring a strategic and aesthetic lens to every project. My work sits at the intersection of <strong>art direction, technology, and brand strategy</strong>.
+          </p>
+
+          <div class="about-philosophy reveal reveal-delay-2">
+            <p>"Design is not just what it looks like — it's what it does, how it feels, and the story it tells without a single word."</p>
+          </div>
+
+          <div class="about-stats reveal reveal-delay-3">
+            <div class="stat-box">
+              <div class="stat-num">80+</div>
+              <div class="stat-label">Projects Done</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">40+</div>
+              <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">15+</div>
+              <div class="stat-label">Tools Mastered</div>
+            </div>
+          </div>
+
+          <div class="hero-actions reveal reveal-delay-4">
+            <a href="https://media.onlinejobs.ph/jobseekers_resumes/36131f3e64f78f20748de048c430e7fd.pdf" target="_blank" class="btn-primary" download>
+              Download CV
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       SKILLS SECTION
+  ============================================= -->
+  <section id="skills" aria-labelledby="skills-title">
+    <div class="container">
+      <div class="skills-header">
+        <div>
+          <div class="section-label reveal">Capabilities</div>
+          <h2 class="section-title reveal" id="skills-title">Tools &amp; <span style="color:var(--gold)">Expertise</span></h2>
+        </div>
+        <p class="section-subtitle reveal">A refined toolkit built over years of practice across design, development, and creative strategy.</p>
+      </div>
+
+      <div class="skills-grid" id="skillsGrid"></div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PROJECTS SECTION
+  ============================================= -->
+  <section id="projects" aria-labelledby="projects-title">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;margin-bottom:40px;">
+        <div>
+          <div class="section-label reveal">Portfolio</div>
+          <h2 class="section-title reveal" id="projects-title">Selected <span style="color:var(--gold)">Work</span></h2>
+        </div>
+        <p class="section-subtitle reveal">A curated showcase of branding, digital design, and creative development projects.</p>
+      </div>
+
+      <div class="projects-filter reveal" id="projectsFilter"></div>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+  </section>
+
+  <!-- Project Modal -->
+  <div class="modal-bg" id="projectModal" role="dialog" aria-modal="true" aria-label="Project details">
+    <div class="modal" id="modalContent">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">×</button>
+    </div>
+  </div>
+
+  <!-- =============================================
+       EXPERIENCE SECTION
+  ============================================= -->
+  <section id="experience" aria-labelledby="experience-title">
+    <div class="container">
+      <div class="section-label reveal">Journey</div>
+      <h2 class="section-title reveal" id="experience-title">Professional <span style="color:var(--gold)">Experience</span></h2>
+      <div style="margin-top:64px;">
+        <div class="experience-grid">
+          <div class="timeline reveal" id="timeline"></div>
+          <div class="experience-featured reveal reveal-delay-2" id="expFeatured"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       SERVICES SECTION
+  ============================================= -->
+  <section id="services" aria-labelledby="services-title">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;">
+        <div>
+          <div class="section-label reveal">What I Offer</div>
+          <h2 class="section-title reveal" id="services-title">Creative <span style="color:var(--gold)">Services</span></h2>
+        </div>
+        <p class="section-subtitle reveal">End-to-end creative solutions for brands that want to stand out and communicate with precision.</p>
+      </div>
+      <div class="services-grid" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       TESTIMONIALS SECTION
+  ============================================= -->
+  <section id="testimonials" aria-labelledby="testimonials-title">
+    <div class="container">
+      <div class="testimonials-header">
+        <div>
+          <div class="section-label reveal">Social Proof</div>
+          <h2 class="section-title reveal" id="testimonials-title">Client <span style="color:var(--gold)">Stories</span></h2>
+        </div>
+        <div class="testimonials-nav reveal">
+          <button class="testi-nav-btn" id="testiPrev" aria-label="Previous testimonial">←</button>
+          <button class="testi-nav-btn" id="testiNext" aria-label="Next testimonial">→</button>
+        </div>
+      </div>
+      <div class="testimonials-track-wrap">
+        <div class="testimonials-track" id="testimonialsTrack"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       CONTACT SECTION
+  ============================================= -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="section-label reveal">Get In Touch</div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2 class="contact-headline reveal" id="contact-title">
+            Let's Create<br>Something <span>Remarkable</span>
+          </h2>
+
+          <p class="about-bio reveal">
+            Ready to elevate your brand with premium design? I'm available for freelance projects, creative collaborations, and long-term partnerships.
+          </p>
+
+          <div class="contact-links reveal">
+            <a class="contact-link">
+              <div class="contact-link-icon">✉</div>
+              <div class="contact-link-info">
+                <div class="label">Email</div>
+                <div class="value">vilan.arlie@gmail.com</div>
+              </div>
+            </a>
+            <a href="#" class="contact-link">
+              <div class="contact-link-icon">🌐</div>
+              <div class="contact-link-info">
+                <div class="label">Website</div>
+                <div class="value">TBA</div>
+              </div>
+            </a>
+            <div class="contact-link">
+              <div class="contact-link-icon">📍</div>
+              <div class="contact-link-info">
+                <div class="label">Location</div>
+                <div class="value">Philippines · Available Worldwide</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form reveal" id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fname">First Name</label>
+              <input class="form-input" type="text" id="fname" name="fname" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lname">Last Name</label>
+              <input class="form-input" type="text" id="lname" name="lname" placeholder="Doe" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="john@company.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="service">Service Needed</label>
+            <select class="form-input" id="service" name="service">
+              <option value="">Select a service</option>
+              <option>Branding Design</option>
+              <option>Social Media Design</option>
+              <option>Web Design</option>
+              <option>UI/UX Design</option>
+              <option>Video Editing</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Project Brief</label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="Tell me about your project, goals, timeline and budget..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">
+            Send Message
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FOOTER
+  ============================================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="name">Arlie <span>Vilan</span></div>
+          <div class="tagline">Graphic Designer · Multimedia Designer · Creative Developer</div>
+        </div>
+
+        <div style="display:flex;gap:64px;flex-wrap:wrap;">
+          <div class="footer-links-group">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="#about">About</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#projects">Work</a></li>
+              <li><a href="#experience">Experience</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-group">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="#services">Branding Design</a></li>
+              <li><a href="#services">Social Media Design</a></li>
+              <li><a href="#services">Web Design</a></li>
+              <li><a href="#services">Video Editing</a></li>
+              <li><a href="#services">AI Creative Direction</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-group">
+            <h4>Connect</h4>
+            <ul>
+              <li><a href="#">Behance</a></li>
+              <li><a href="#">Dribbble</a></li>
+              <li><a href="#">LinkedIn</a></li>
+              <li><a href="#">Instagram</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2025 Arlie Vilan. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="#">Behance</a>
+          <a href="#">Dribbble</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
